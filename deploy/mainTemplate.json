@@ -8,7 +8,7 @@
   },
   "variables": {
     "uSiteName": "[concat(parameters('siteName'),'-',uniqueString(resourceGroup().id,subscription().subscriptionId))]",
-     "linuxFxVersion":  "PYTHON|3.8"
+    "linuxFxVersion":  "PYTHON|3.8"
   },
   "resources": [
 
