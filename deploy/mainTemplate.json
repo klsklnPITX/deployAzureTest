@@ -8,9 +8,10 @@
   },
   "variables": {
     "uSiteName": "[concat(parameters('siteName'),'-',uniqueString(resourceGroup().id,subscription().subscriptionId))]"
+      "linuxFxVersion":  "PYTHON|3.8"
   },
   "resources": [
-    {
+    /*{
       "apiVersion": "2018-02-01",
       "name": "pid-737fb30e-b001-45e8-9a09-b4a21bee257f",
       "type": "Microsoft.Resources/deployments",
@@ -23,7 +24,7 @@
           ]
         }
       }
-    },
+    },*/
     {
       "type": "Microsoft.Web/serverfarms",
       "apiVersion": "2018-02-01",
@@ -45,7 +46,7 @@
         "targetWorkerSizeId": 0
       }
     },
-    {
+    /*{
       "type": "Microsoft.Insights/components",
       "kind": "web",
       "name": "[variables('uSiteName')]",
@@ -54,7 +55,7 @@
       "properties": {
         "Application_Type": "web"
       }
-    },
+    },*/
     {
       "type": "Microsoft.Web/sites",
       "apiVersion": "2018-11-01",
@@ -72,7 +73,7 @@
         "siteConfig": {
           "alwaysOn": true,
           "use32BitWorkerProcess": false,
-          "linuxFxVersion": "PYTHON|3.8",
+          "linuxFxVersion": "[variables('linuxFxVersion')]",
           "appSettings": [
             {
               "name": "CLIENT_ID",
