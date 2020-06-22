@@ -36,7 +36,7 @@
         "family": "S",
         "capacity": 1
       },
-      "kind": "app",
+      "kind": "linux",
       "properties": {
         "name": "[variables('uSiteName')]",
         "perSiteScaling": false,
@@ -57,7 +57,7 @@
     },
     {
       "type": "Microsoft.Web/sites",
-      "apiVersion": "2018-02-01",
+      "apiVersion": "2018-11-01",
       "name": "[concat(variables('uSiteName'),'')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
@@ -72,6 +72,7 @@
         "siteConfig": {
           "alwaysOn": true,
           "use32BitWorkerProcess": false,
+          "linuxFxVersion": "PYTHON|3.8",
           "appSettings": [
             {
               "name": "CLIENT_ID",
@@ -91,7 +92,7 @@
             },
             {
               "name": "TENANT_ID",
-              "value": "[subscription().tenantID]"
+              "value": "[subscription().tenantId]"
             }
           ]
         }
