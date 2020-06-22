@@ -2,17 +2,17 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "ASPNameName": {
+    "ASPName": {
       "type": "string",
       "minLength": 1
     }
   },
   "variables": {
-    "WebAppNameName": "[concat('WebAppName', uniqueString(resourceGroup().id))]"
+    "WebAppName": "[concat('WebAppName', uniqueString(resourceGroup().id))]"
   },
   "resources": [
     {
-      "name": "[parameters('ASPNameName')]",
+      "name": "[parameters('ASPName')]",
       "type": "Microsoft.Web/serverfarms",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-08-01",
@@ -28,25 +28,25 @@
         "displayName": "ASPName"
       },
       "properties": {
-        "name": "[parameters('ASPNameName')]",
+        "name": "[parameters('ASPName')]",
         "numberOfWorkers": 1
       }
     },
     {
-      "name": "[variables('WebAppNameName')]",
+      "name": "[variables('WebAppName')]",
       "type": "Microsoft.Web/sites",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-08-01",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', parameters('ASPNameName'))]"
+        "[resourceId('Microsoft.Web/serverfarms', parameters('ASPName'))]"
       ],
       "tags": {
-        "[concat('hidden-related:', resourceId('Microsoft.Web/serverfarms', parameters('ASPNameName')))]": "Resource",
+        "[concat('hidden-related:', resourceId('Microsoft.Web/serverfarms', parameters('ASPName')))]": "Resource",
         "displayName": "WebAppName"
       },
       "properties": {
-        "name": "[variables('WebAppNameName')]",
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('ASPNameName'))]"
+        "name": "[variables('WebAppName')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('ASPName'))]"
       }
     }
   ],
