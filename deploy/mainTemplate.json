@@ -1,21 +1,34 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "ASPName": {
-      "type": "string",
-      "minLength": 1
+    "siteName": {
+      "type": "string"
     }
   },
   "variables": {
-    "WebAppName": "[concat('WebAppName', uniqueString(resourceGroup().id))]"
+    "uSiteName": "[concat(parameters('siteName'),'-',uniqueString(resourceGroup().id,subscription().subscriptionId))]"
   },
   "resources": [
     {
-      "name": "[parameters('ASPName')]",
+      "apiVersion": "2018-02-01",
+      "name": "pid-737fb30e-b001-45e8-9a09-b4a21bee257f",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "resources": [
+          ]
+        }
+      }
+    },
+    {
       "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2018-02-01",
+      "name": "[variables('uSiteName')]",
       "location": "[resourceGroup().location]",
-      "apiVersion": "2015-08-01",
       "sku": {
         "name": "S1",
         "tier": "Standard",
@@ -23,32 +36,81 @@
         "family": "S",
         "capacity": 1
       },
-      "dependsOn": [],
-      "tags": {
-        "displayName": "Site Name"
-      },
+      "kind": "app",
       "properties": {
-        "name": "[parameters('ASPName')]",
-        "numberOfWorkers": 1
+        "name": "[variables('uSiteName')]",
+        "perSiteScaling": false,
+        "reserved": false,
+        "targetWorkerCount": 0,
+        "targetWorkerSizeId": 0
       }
     },
     {
-      "name": "[variables('WebAppName')]",
-      "type": "Microsoft.Web/sites",
+      "type": "Microsoft.Insights/components",
+      "kind": "web",
+      "name": "[variables('uSiteName')]",
+      "apiVersion": "2018-05-01-preview",
       "location": "[resourceGroup().location]",
-      "apiVersion": "2015-08-01",
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', parameters('ASPName'))]"
-      ],
-      "tags": {
-        "[concat('hidden-related:', resourceId('Microsoft.Web/serverfarms', parameters('ASPName')))]": "Resource",
-        "displayName": "WebAppName"
-      },
       "properties": {
-        "name": "[variables('WebAppName')]",
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('ASPName'))]"
+        "Application_Type": "web"
       }
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2018-02-01",
+      "name": "[concat(variables('uSiteName'),'')]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', variables('uSiteName'))]",
+        "[resourceId('Microsoft.Insights/components', variables('uSiteName'))]"
+      ],
+      "kind": "app",
+      "properties": {
+        "enabled": true,
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms',variables('uSiteName'))]",
+        "httpsOnly": true,
+        "siteConfig": {
+          "alwaysOn": true,
+          "use32BitWorkerProcess": false,
+          "appSettings": [
+            {
+              "name": "CLIENT_ID",
+              "value": ""
+            },
+            {
+              "name": "CLIENT_SECRET",
+              "value": ""
+            },
+            {
+              "name": "RESOURCE_GROUP",
+              "value": "[resourceGroup().name]"
+            },
+            {
+              "name": "SUBSCRIPTION_ID",
+              "value": "[subscription().subscriptionId]"
+            },
+            {
+              "name": "TENANT_ID",
+              "value": "[subscription().tenantID]"
+            }
+          ]
+        }
+      },
+      "resources": [
+        {
+          "name": "web",
+          "type": "sourcecontrols",
+          "apiVersion": "2018-02-01",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', concat(variables('uSiteName'),''))]"
+          ],
+          "properties": {
+            "RepoUrl": "https://github.com/klsklnPITX/deployAzureTest",
+            "branch": "master",
+            "IsManualIntegration": true
+          }
+        }
+      ]
     }
-  ],
-  "outputs": {}
+  ]
 }
