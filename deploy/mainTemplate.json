@@ -39,8 +39,7 @@
       "name": "[concat(variables('uSiteName'),'')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', variables('uSiteName'))]",
-        "[resourceId('Microsoft.Insights/components', variables('uSiteName'))]"
+        "[resourceId('Microsoft.Web/serverfarms', variables('uSiteName'))]"
       ],
       "kind": "app",
       "properties": {
