@@ -41,7 +41,7 @@
       "properties": {
         "name": "[variables('uSiteName')]",
         "perSiteScaling": false,
-        "reserved": false,
+        "reserved": true,
         "targetWorkerCount": 0,
         "targetWorkerSizeId": 0
       }
