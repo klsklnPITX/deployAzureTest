@@ -3,6 +3,7 @@ import appconfig
 import funcs
 from pytransform import pyarmor_runtime
 
+
 app = Flask(__name__)
 app.config.from_object(appconfig)
 
