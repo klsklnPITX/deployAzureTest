@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\deploy"
   ],
-  "SelectedNode": "\\azuredeploy.json",
+  "SelectedNode": "\\funcs.py",
   "PreviewInSolutionExplorer": false
 }
