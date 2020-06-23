@@ -1,0 +1,5 @@
+{
+    "appService.showBuildDuringDeployPrompt": false,
+    "appService.defaultWebAppToDeploy": "/subscriptions/ef982c3b-34c3-458b-ae41-deac9a10d36b/resourceGroups/US-kk-testing-rg/providers/Microsoft.Web/sites/pyarmtest-ohwjco5rw7mms",
+    "appService.deploySubpath": "."
+}
