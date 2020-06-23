@@ -9,7 +9,7 @@ app.config.from_object(appconfig)
 
 @app.route("/")
 def home():
-    output = funcs.anotheroutput("<h1>Output from pyc</h1>")
+    output = funcs.myfunc("<h1>Output from pyc PYARMOR</h1>")
     return output
 
 if __name__ == "__main__":
